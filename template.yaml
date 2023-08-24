@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  transaction-signer
+
+  This lambda retrieves unsigned transactions from the queue and signs them. This lambda does not submit the TXs. it just makes them ready to be submitted by another lambda
+
+Globals:
+  Function:
+    Timeout: 128
+    MemorySize: 128
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+
+Resources:
+  SignTransactionFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+    Properties:
+      CodeUri: signer/
+      Handler: bootstrap
+      Runtime: provided.al2
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0961eeee3ad3c0624
+        SubnetIds:
+          - subnet-0660738b8c9075070
+          - subnet-04c35f59bf6ea157b
+          - subnet-01cac1cdc7fdd8612
+          - subnet-0f9a195a0d500f871
+          - subnet-0380b39d4d63f4896
+          - subnet-074be6ecddf70eaf2
+
+      Layers:
+        - arn:aws:lambda:eu-west-2:464622532012:layer:Datadog-Extension-ARM:43
+
+      Architectures:
+        - arm64
+
+      Environment:
+        Variables:
+          LOG_LEVEL: debug
+          ENVIRONMENT: local ## mainnet, testnet
+          DD_LOG_LEVEL: "DEBUG"
+          DD_API_KEY: fbb9ed85a32ec775518768a8ebf1d5a7
+          DD_SITE: "datadoghq.eu"
+          SEPIOR_SECRET_NAME: sepior-user
+          SEPIOR_SECRET_AWS_REGION: eu-west-2
+          WALLETS_POSTGRES_DSN: "postgres://mara:mara@host.docker.internal:4432/wallets?sslmode=disable"
+          TRANSACTIONS_POSTGRES_DSN: "postgres://mara:mara@host.docker.internal:4432/transactions?sslmode=disable"
+          SQS_REGION: eu-west-2
+          SQS_LOCALSTACK_ENDPOINT: http://host.docker.internal:4566
+          SQS_WRITE_QUEUE_NAME: new_signed_transaction_queue
+          SERVICE_NAME: transaction_signer
+          MARA_CHAIN_RPC: "https://mara-testnet.calderachain.xyz/http"
+          MARA_CHAIN_ID: 123456
+
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'

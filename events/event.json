@@ -1,0 +1,16 @@
+{
+  "Records": [
+    {
+      "messageId": "9fd488be-0d3c-48d8-8144-04067f7a46e1",
+      "receiptHandle": "MjRiNWFiYmQtMmEzMS00OTFkLWE2NTUtMmIxZTJkNzM0YjAzIGFybjphd3M6c3FzOmV1LXdlc3QtMjowMDAwMDAwMDAwMDA6bmV3ZXJfY3JlYXRlZF90cmFuc2FjdGlvbl9xdWV1ZSA5ZmQ0ODhiZS0wZDNjLTQ4ZDgtODE0NC0wNDA2N2Y3YTQ2ZTEgMTY5Mjc4MTU1Mi41NDAyNjQ4",
+      "body": "{\"id\":\"551a2f03-8eb6-486f-a8db-5f2200ed24b8\",\"raw_tx\":\"eb80830f424082791894e004bb7a6cd6e00d3dabf717d809e665bdeaa6718902b5e3af16b188000080808080\",\"wallet_row_id\":10}\n",
+      "md5OfBody": "68ead954b657f9ac943e185e09f556b9",
+      "md5OfMessageAttributes": "",
+      "attributes": null,
+      "messageAttributes": null,
+      "eventSourceARN": "",
+      "eventSource": "",
+      "awsRegion": ""
+    }
+  ]
+}

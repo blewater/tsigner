@@ -1,0 +1,16 @@
+---
+- id: 1
+  trx_hash: "xa76886fe597f342bbffd89dda23944ad49225c39b275caac8677103c9f5286d4"
+  chain_id: 123456
+  network_type: mainnet
+  state: created
+  transfer_type: eoa
+  sender_address: "mara.eth"
+  recipient_address: 'mara.eth.link'
+  amount: 1196.53
+  nonce: 1
+  max_fee: 0
+  max_priority_fee: 0
+  is_sender_paying_gas: true
+  created: '2023-07-20 11:18:46.157341+00'
+  updated: '2023-07-20 11:18:46.157341+00'

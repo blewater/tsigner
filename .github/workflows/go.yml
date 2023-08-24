@@ -1,0 +1,89 @@
+name: Build and run all tests
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+
+      localstack:
+        image: localstack/localstack:latest
+        env:
+          DEFAULT_REGION: eu-west-2
+          AWS_ACCESS_KEY_ID: localstack
+          AWS_SECRET_ACCESS_KEY: localstack
+        ports:
+          - 4566:4566
+          - 4571:4571
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check out chain-db code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          path: ./signer/datastore/postgres/testdata/migrations
+          repository: "mara-labs/chain-db"
+
+      - name: Grant access to Sepior SDK
+        run: git config --global url."https://${{ secrets.SEPIOR_USERNAME}}:${{ secrets.SEPIOR_PASSWORD}}@gitlab.com".insteadOf "https://gitlab.com"
+
+      - name: Grant access to Mara private repos
+        run: git config --global url.https://${{ secrets.GH_ACCESS_TOKEN }}@github.com/.insteadOf https://github.com/
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.21"
+        id: go
+
+      - name: Cache go modules
+        uses: actions/cache@v1
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
+          restore-keys: ${{ runner.os }}-go-
+
+      - name: Get and verify dependencies
+        env:
+          GONOPROXY: "gitlab.com/sepior/go-tsm-sdk"
+          GONOSUMDB: "gitlab.com/sepior/go-tsm-sdk"
+          GOPRIVATE: "gitlab.com/sepior/go-tsm-sdk"
+        run: cd signer && go mod download && go mod verify && cd -
+
+      - name: Install Localstack
+        run: |
+          sudo apt update -y
+          sudo apt install -y python3-pip
+          pip3 install awscli-local[ver1]
+
+      - name: Create queue URL and verify localstack is up and running
+        run: |
+          awslocal sqs create-queue --queue-name signed_transactions_queue --region eu-west-2
+          echo "Created test signed queue"
+
+      - name: Vet and make sure there are no issues
+        run: make vet
+
+      - name: Run integration tests
+        run: make integration_test
+        env:
+          SQS_LOCALSTACK_ENDPOINT: http://localhost:4566
+          ENVIRONMENT: local
+          SQS_REGION: eu-west-2
+          SQS_QUEUE_NAME: signed_transactions_queue
+          ### localstack doesn't care about all of these values to be right
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+          AWS_PROFILE: test
+          TESTCONTAINERS_RYUK_DISABLED: true

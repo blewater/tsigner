@@ -1,0 +1,21 @@
+output = "datastore/postgres/models/wallets"
+pkgname = "wallets"
+wipe = true
+
+add-global-variants = true
+
+add-enum-types = true
+no-tests = true
+
+[psql]
+dbname = "wallets"
+host = "localhost"
+port = 4432
+user = "mara"
+pass = "mara"
+sslmode = "disable"
+blacklist = ["schema_migrations", "treasuries", "treasury_movements", "tokens"]
+
+[auto-columns]
+created = "created"
+updated = "updated"

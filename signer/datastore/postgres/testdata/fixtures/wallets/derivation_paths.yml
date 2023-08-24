@@ -1,0 +1,20 @@
+---
+- id: 1
+  wallet_id: 1
+  purpose: 44
+  coin_type: 614
+  account: 4
+  change: 0
+  address_index: 1
+  created: '2023-06-24 01:22:24.596042+00'
+  updated: '2023-06-24 01:22:24.596042+00'
+
+- id: 2
+  wallet_id: 2
+  purpose: 44
+  coin_type: 700
+  account: 5
+  change: 0
+  address_index: 1
+  created: '2023-06-24 01:22:24.596042+00'
+  updated: '2023-06-24 01:22:24.596042+00'

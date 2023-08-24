@@ -1,0 +1,16 @@
+{
+  "Records": [
+    {
+      "messageId": "e75b4a5c-99a5-493a-bee0-b1019114321c",
+      "receiptHandle": "MWNmZTMxZTItNjRlNS00NWY5LWFkNzUtOGY3YmU0NWU0MWQwIGFybjphd3M6c3FzOmV1LXdlc3QtMjowMDAwMDAwMDAwMDA6bmV3ZXJfY3JlYXRlZF90cmFuc2FjdGlvbl9xdWV1ZSBlNzViNGE1Yy05OWE1LTQ5M2EtYmVlMC1iMTAxOTExNDMyMWMgMTY5MjAyODk2MS42ODY5MDY2",
+      "body": "{\"id\":\"14fb7ef3-59b6-4f71-8983-b44eff3dbaab\",\"raw_tx\":\"f84e80830f424082791894e004bb7a6cd6e00d3dabf717d809e665bdeaa671888ac7230489e80000a462633236626330302d613931392d343665662d396565312d383863323265396465376662808080\",\"sender_address\":\"0x48e7B9afd9c14D3AFB02B50D6b9cb1f7A3C7eb0d\",\"transaction_id\":\"bc26bc00-a919-46ef-9ee1-88c22e9de7fb\"}\n",
+      "md5OfBody": "a0c5e975b7cd5ec927a8ab3b24a470be",
+      "md5OfMessageAttributes": "",
+      "attributes": null,
+      "messageAttributes": null,
+      "eventSourceARN": "",
+      "eventSource": "",
+      "awsRegion": ""
+    }
+  ]
+}

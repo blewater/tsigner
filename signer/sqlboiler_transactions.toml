@@ -1,0 +1,21 @@
+output = "datastore/postgres/models/transactions"
+pkgname = "transactions"
+wipe = true
+
+add-global-variants = true
+
+add-enum-types = true
+no-tests = true
+
+[psql]
+dbname = "transactions"
+host = "localhost"
+port = 4432
+user = "mara"
+pass = "mara"
+sslmode = "disable"
+blacklist = ["schema_migrations", "fees"]
+
+[auto-columns]
+created = "created"
+updated = "updated"
